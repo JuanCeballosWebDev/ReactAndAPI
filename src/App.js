@@ -6,7 +6,10 @@ const URL = "https://api.hatchways.io/assessment/students";
 function App() {
 
   const [studentData, setStudentData] = useState([]); 
-  const [data, setData] = useState("");
+  const [data, setData] = useState(""); 
+  const [tag, setTag] = useState([]);
+  const [valueInp, setValue] = useState("Enter New Tag");
+  const [num, setId] = useState("");  
   
   const getStudents = (URL) => {
      fetch(URL)
@@ -20,6 +23,40 @@ function App() {
   }, []); 
 
   const filter = (stud, dat) => {
+
+    const newObjec= () => {
+      stud.map((k) => k.tag= "")
+      return (
+        <div>
+          <form onSubmit={(e) => 
+            {
+              e.preventDefault()
+              setTag(valueInp)
+            }
+          }>
+        <input
+            type="text"
+            value={valueInp}
+            onChange={(e) =>
+              setValue(stud.tag= e.target.value)
+            }
+        />
+        <button type="submit" className="button">
+          Add Tag
+        </button>
+        <p>{tag}</p>
+        <button onClick={(e) => {
+              e.preventDefault()
+              setTag("")
+            }
+          } className="button">
+          Erase
+        </button>
+        </form>
+        </div>
+        )
+    }
+
     if (dat === '')
     {
       return (
@@ -31,6 +68,15 @@ function App() {
             total += Math.floor(arrNumbers[i]);
           }
           let average = total/arrNumbers.length;
+
+          /*const createTag = () => {
+            if (count === )
+            return (
+              <>
+                <p>{tag[count]}</p>
+              </>
+            )
+          }*/
           
           return (
               <>
@@ -41,6 +87,7 @@ function App() {
                   <p>Company: {nam.company}</p>
                   <p>Skill: {nam.skill}</p>
                   <p>Average: {average}</p>
+                  <div>{newObjec(stud)}</div>
                 </div>
               </>
           )
