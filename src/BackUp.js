@@ -8,7 +8,8 @@ function App() {
   const [studentData, setStudentData] = useState([]); 
   const [data, setData] = useState(""); 
   const [tag, setTag] = useState([]);
-  const [valueInp, setValue] = useState("");  
+  const [valueInp, setValue] = useState("Enter New Tag");
+  //const [num, setId] = useState("");  
   
   const getStudents = (URL) => {
      fetch(URL)
@@ -23,34 +24,24 @@ function App() {
 
   const filter = (stud, dat) => {
 
-    const newObjec= (index) => {
-      //stud.tag= "";
-      const ind = index;
+    const newObjec= () => {
+      stud.map((k) => k.tag= "")
       return (
         <div>
-          <form onSubmit=
-          {
-            (e) => 
-              {
-                e.preventDefault()
-                setTag(valueInp)
-              }
-          }
-          >
-        <input
-            key={index}
-            type="text"
-            value={stud.tag}
-            onChange=
+          <form onSubmit={(e) => 
             {
-              (e) =>
-              {
-                setValue(e.target.value)
-              }
+              e.preventDefault()
+              setTag(valueInp)
             }
-            placeholder = {"Add Tag"}
+          }>
+        <input
+            type="text"
+            value={valueInp}
+            onChange={(e) =>
+              setValue(e.target.value)
+            }
         />
-        <button type="submit" className="button" >
+        <button type="submit" className="button">
           Add Tag
         </button>
         <p>{tag}</p>
@@ -69,7 +60,7 @@ function App() {
     if (dat === '')
     {
       return (
-        stud.map((nam, index) => {
+        stud.map((nam) => {
           let fullName = nam.firstName + ' ' + nam.lastName;
           let total = 0;
           let arrNumbers = nam.grades;
@@ -77,17 +68,26 @@ function App() {
             total += Math.floor(arrNumbers[i]);
           }
           let average = total/arrNumbers.length;
+
+          /*const createTag = () => {
+            if (count === )
+            return (
+              <>
+                <p>{tag[count]}</p>
+              </>
+            )
+          }*/
           
           return (
               <>
                 <img src={nam.pic} />
-                <div className="box" key={index}>
+                <div className="box">
                   <p style={{fontWeight: "bold"}} className="name">{fullName}</p>
                   <p>Email: {nam.email}</p>
                   <p>Company: {nam.company}</p>
                   <p>Skill: {nam.skill}</p>
                   <p>Average: {average}</p>
-                  <div>{newObjec(nam, index)}</div>
+                  <div>{newObjec(stud)}</div>
                 </div>
               </>
           )
@@ -98,7 +98,7 @@ function App() {
     else
     { 
       return (
-        stud.map((nam, index) => {
+        stud.map((nam) => {
           if (nam.firstName.toLowerCase().includes(data) || nam.lastName.toLowerCase().includes(data))
           {
             let fullName = nam.firstName + ' ' + nam.lastName;
@@ -118,7 +118,7 @@ function App() {
                     <p>Company: {nam.company}</p>
                     <p>Skill: {nam.skill}</p>
                     <p>Average: {average}</p>
-                    <div>{newObjec(nam, index)}</div>
+                    <div>{newObjec(stud)}</div>
                   </div>
                 </>
             )
@@ -138,10 +138,9 @@ function App() {
           type="text"
           value={data}
           onChange={(e) => setData(e.target.value)}
-          placeholder = {"Search by name"}
-          id="search" 
+          placeholder = {"Search by name"} 
       />
-    <div>{filter(studentData, data)}</div>
+      <div>{filter(studentData, data)}</div>
     </div>
     </main>
   )
