@@ -110,6 +110,7 @@ function App() {
   
   const filterContentTag = (tagInput) => {
    let newFilteredContent = [];
+   let deepFilteredContent = [];
  
    if (nameFilterInput !== "" && tagFilterInput !== "") {
       
@@ -120,41 +121,45 @@ function App() {
       });// filteredContent.forEach end
       
       if (tagInput.length) {
-         studentData.forEach(student => {
+         newFilteredContent.forEach(student => {
                student.tags.forEach(tag => {
                   if (tag.toLowerCase().includes(tagInput.toLowerCase()))
-                     newFilteredContent.push(student);
+                  {
+                     deepFilteredContent.push(student);
+                  }
                });// Inner forEach
          }); // Outter forEach
       }// First inner if from fisrt if
-   
-      if (tagInput.length === 0) {
-         setFilteredStudentData(studentData);
-         return; 
-       }
-     
-      setFilteredStudentData(newFilteredContent);
-   
-   } // filterContentTag's first if
-   
-   else {
-      if (tagInput.length) {
-         studentData.forEach(student => {
-               student.tags.forEach(tag => {
+
+      setFilteredStudentData(deepFilteredContent);
+   } // filterContentTag's First if
+
+   if (tagInput.length) {
+      
+         studentData.map(student => {
+               return student.tags.forEach(tag => {
                   if (tag.toLowerCase().includes(tagInput.toLowerCase()))
-                     filteredContentTag.push(student);
+                  {
+                     if (filteredContentTag.includes(student))
+                     {
+                        return filteredContentTag;
+                     }
+                     
+                     else
+                     {
+                           filteredContentTag.push(student);
+                     }
+                  }
                });
          });
+         
+         setFilteredStudentData(filteredContentTag);
       }
    
-      if (tagInput.length === 0) {
-         setFilteredStudentData(studentData);
-         return; 
-      }
-     
-      setFilteredStudentData(filteredContentTag);
-   
-   } // filterContentTag's only else
+   if (tagInput.length === 0) {
+      setFilteredStudentData(studentData);
+      return; 
+   }
  } // filterContentTag end
 
   
